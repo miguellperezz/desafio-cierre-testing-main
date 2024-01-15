@@ -18,6 +18,7 @@ func NewService(repo Repository) Service {
 
 func (s *service) GetAllBySeller(sellerID string) ([]Product, error) {
 	data, err := s.repo.GetAllBySeller(sellerID)
+
 	if err != nil {
 		log.Println("error in repository", err.Error(), "sellerId:", sellerID)
 		return nil, err
