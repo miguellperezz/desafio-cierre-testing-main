@@ -41,4 +41,26 @@ func TestProdcutsHandler_GetProducts(t *testing.T) {
 		assert.JSONEq(t, expectedBody, response.Body.String())
 	})
 
+	t.Run("Should return an error if the seller ID is not provided", func(t *testing.T) {
+		// arrange
+		var (
+			expectedStatusCode = 400
+			expectedHeaders    = http.Header{"Content-Type": []string{"application/json; charset=utf-8"}}
+			expectedBody       = `{"error":"seller_id query param is required"}`
+			request            = httptest.NewRequest(http.MethodGet, "/api/v1/products", nil)
+			response           = httptest.NewRecorder()
+			engine             = gin.New()
+		)
+
+		router.MapRoutes(engine)
+
+		// act
+		engine.ServeHTTP(response, request)
+
+		// assert
+		assert.Equal(t, expectedStatusCode, response.Code)
+		assert.Equal(t, expectedHeaders, response.Header())
+		assert.JSONEq(t, expectedBody, response.Body.String())
+	})
+
 }

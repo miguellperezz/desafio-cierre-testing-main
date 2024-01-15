@@ -1,6 +1,8 @@
 package products
 
-import "log"
+import (
+	"fmt"
+)
 
 type Service interface {
 	GetAllBySeller(sellerID string) ([]Product, error)
@@ -20,7 +22,7 @@ func (s *service) GetAllBySeller(sellerID string) ([]Product, error) {
 	data, err := s.repo.GetAllBySeller(sellerID)
 
 	if err != nil {
-		log.Println("error in repository", err.Error(), "sellerId:", sellerID)
+		fmt.Println("error in repository", err.Error(), "sellerId:", sellerID)
 		return nil, err
 	}
 	return data, err

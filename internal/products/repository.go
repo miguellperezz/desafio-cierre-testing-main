@@ -1,5 +1,11 @@
 package products
 
+import "errors"
+
+var (
+	ErrSellerIDRequired = errors.New("seller_id query param is required")
+)
+
 type Repository interface {
 	GetAllBySeller(sellerID string) ([]Product, error)
 }
@@ -11,7 +17,12 @@ func NewRepository() Repository {
 }
 
 func (r *repository) GetAllBySeller(sellerID string) ([]Product, error) {
-	var prodList []Product
+	prodList := []Product{}
+
+	if sellerID == "" {
+		return prodList, ErrSellerIDRequired
+	}
+
 	prodList = append(prodList, Product{
 		ID:          "mock",
 		SellerID:    "FEX112AC",
